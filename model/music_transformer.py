@@ -89,7 +89,7 @@ class MusicTransformer(nn.Module):
         else:
             mask = None
 
-        x = self.embedding(x)
+        x = self.embedding(x.to(torch.int64).to(get_device()))
 
         # Input shape is (max_seq, batch_size, d_model)
         x = x.permute(1,0,2)
@@ -188,7 +188,8 @@ class DummyDecoder(nn.Module):
     def __init__(self):
         super(DummyDecoder, self).__init__()
 
-    def forward(self, tgt, memory, tgt_mask, memory_mask,tgt_key_padding_mask,memory_key_padding_mask):
+    def forward(self, tgt, memory, tgt_mask, memory_mask,tgt_key_padding_mask,memory_key_padding_mask, 
+                tgt_is_causal=False, memory_is_causal=False):
         """
         ----------
         Author: Damon Gwinn

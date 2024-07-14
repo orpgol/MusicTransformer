@@ -26,7 +26,12 @@ def train_epoch(cur_epoch, model, dataloader, loss, opt, lr_scheduler=None, prin
         opt.zero_grad()
 
         x   = batch[0].to(get_device())
-        tgt = batch[1].to(get_device())
+        x = x.reshape([-1,x.shape[-1]])[:,:512]
+        
+        tgt   = batch[0].to(get_device())
+        tgt = tgt.reshape([-1,tgt.shape[-1]])[:,512:1024].to(torch.int64)
+        
+        # tgt = batch[1].to(get_device())
 
         y = model(x)
 
